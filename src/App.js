@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import { Button, Card } from 'react-bootstrap';
 import FormTodo from './FormTodo';
@@ -6,10 +6,24 @@ import Todo from './Todo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+
+  const laravelURL = "http://127.0.0.1:8001/api/fetchtodos";
+  useEffect(() => {
+    fetch(laravelURL)
+      .then(response => response.json())
+      .then(data => {
+        setTodos(data);
+      })
+      .catch(error => console.log(error));
+  }, []);
+  
   const [todos, setTodos] = React.useState([
     {
+      id: "",
       text: "This is an example todo.",
-      isDone: false
+      isDone: false,
+      created_at: "",
+      updated_at: "",
     }
   ]);
 
